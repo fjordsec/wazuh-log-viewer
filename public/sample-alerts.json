@@ -1,0 +1,224 @@
+{
+  "took": 12,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 4,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": [
+      {
+        "_index": "wazuh-alerts-4.x-2026.01.15",
+        "_id": "sample-001",
+        "_score": null,
+        "_source": {
+          "predecoder": {
+            "hostname": "web-01",
+            "program_name": "sshd",
+            "timestamp": "Jan 15 10:12:04"
+          },
+          "agent": {
+            "ip": "10.0.0.10",
+            "name": "web-01",
+            "id": "001"
+          },
+          "manager": {
+            "name": "wazuh-manager"
+          },
+          "data": {
+            "srcip": "192.0.2.44",
+            "dstuser": "admin"
+          },
+          "rule": {
+            "firedtimes": 1,
+            "mail": false,
+            "level": 5,
+            "description": "sshd: Attempt to login using a non-existent user",
+            "groups": ["syslog", "sshd", "invalid_login", "authentication_failed"],
+            "mitre": {
+              "technique": ["Brute Force"],
+              "id": ["T1110"],
+              "tactic": ["Credential Access"]
+            },
+            "id": "5710"
+          },
+          "decoder": {
+            "parent": "sshd",
+            "name": "sshd"
+          },
+          "full_log": "Jan 15 10:12:04 web-01 sshd[2140]: Invalid user admin from 192.0.2.44 port 51234",
+          "input": {
+            "type": "log"
+          },
+          "@timestamp": "2026-01-15T10:12:05.120Z",
+          "location": "/var/log/auth.log",
+          "id": "1768471925.100001",
+          "timestamp": "2026-01-15T10:12:05.120+0000"
+        }
+      },
+      {
+        "_index": "wazuh-alerts-4.x-2026.01.15",
+        "_id": "sample-002",
+        "_score": null,
+        "_source": {
+          "predecoder": {
+            "hostname": "web-01",
+            "program_name": "sudo",
+            "timestamp": "Jan 15 10:15:30"
+          },
+          "agent": {
+            "ip": "10.0.0.10",
+            "name": "web-01",
+            "id": "001"
+          },
+          "manager": {
+            "name": "wazuh-manager"
+          },
+          "data": {
+            "srcuser": "deploy",
+            "dstuser": "root",
+            "pwd": "/home/deploy",
+            "command": "/usr/bin/systemctl restart nginx"
+          },
+          "rule": {
+            "firedtimes": 1,
+            "mail": false,
+            "level": 3,
+            "description": "Successful sudo to ROOT executed.",
+            "groups": ["syslog", "sudo"],
+            "mitre": {
+              "technique": ["Sudo and Sudo Caching"],
+              "id": ["T1548.003"],
+              "tactic": ["Privilege Escalation", "Defense Evasion"]
+            },
+            "id": "5402"
+          },
+          "decoder": {
+            "parent": "sudo",
+            "name": "sudo"
+          },
+          "full_log": "Jan 15 10:15:30 web-01 sudo[2410]:   deploy : PWD=/home/deploy ; USER=root ; COMMAND=/usr/bin/systemctl restart nginx",
+          "input": {
+            "type": "log"
+          },
+          "@timestamp": "2026-01-15T10:15:31.045Z",
+          "location": "journald",
+          "id": "1768472131.100002",
+          "timestamp": "2026-01-15T10:15:31.045+0000"
+        }
+      },
+      {
+        "_index": "wazuh-alerts-4.x-2026.01.15",
+        "_id": "sample-003",
+        "_score": null,
+        "_source": {
+          "agent": {
+            "ip": "10.0.0.11",
+            "name": "app-01",
+            "id": "002"
+          },
+          "manager": {
+            "name": "wazuh-manager"
+          },
+          "data": {
+            "sca": {
+              "scan_id": "100000001",
+              "check": {
+                "result": "failed",
+                "remediation": "Edit /etc/fstab and add nodev to the /tmp mount options, then remount /tmp.",
+                "description": "The nodev mount option specifies that the filesystem cannot contain special devices.",
+                "id": "28501",
+                "title": "Ensure nodev option set on /tmp partition.",
+                "rationale": "Prevent users from creating special device files in /tmp.",
+                "command": ["findmnt --kernel /tmp"],
+                "compliance": {
+                  "cis": "1.1.2.2",
+                  "nist_sp_800-53": "AC-5,AC-6"
+                }
+              },
+              "type": "check",
+              "policy": "CIS Ubuntu Linux 22.04 LTS Benchmark v1.0.0."
+            }
+          },
+          "rule": {
+            "firedtimes": 1,
+            "mail": false,
+            "level": 7,
+            "description": "CIS Ubuntu Linux 22.04 LTS Benchmark v1.0.0.: Ensure nodev option set on /tmp partition.",
+            "groups": ["sca"],
+            "cis": ["1.1.2.2"],
+            "id": "19007"
+          },
+          "decoder": {
+            "name": "sca"
+          },
+          "input": {
+            "type": "log"
+          },
+          "@timestamp": "2026-01-15T10:20:00.250Z",
+          "location": "sca",
+          "id": "1768472400.100003",
+          "timestamp": "2026-01-15T10:20:00.250+0000"
+        }
+      },
+      {
+        "_index": "wazuh-alerts-4.x-2026.01.15",
+        "_id": "sample-004",
+        "_score": null,
+        "_source": {
+          "agent": {
+            "ip": "10.0.0.11",
+            "name": "app-01",
+            "id": "002"
+          },
+          "manager": {
+            "name": "wazuh-manager"
+          },
+          "data": {
+            "sca": {
+              "scan_id": "100000001",
+              "check": {
+                "result": "passed",
+                "description": "SSH root login should be disabled.",
+                "id": "28610",
+                "title": "Ensure SSH root login is disabled.",
+                "command": ["sshd -T | grep permitrootlogin"],
+                "compliance": {
+                  "cis": "5.2.10"
+                }
+              },
+              "type": "check",
+              "policy": "CIS Ubuntu Linux 22.04 LTS Benchmark v1.0.0."
+            }
+          },
+          "rule": {
+            "firedtimes": 1,
+            "mail": false,
+            "level": 3,
+            "description": "CIS Ubuntu Linux 22.04 LTS Benchmark v1.0.0.: Ensure SSH root login is disabled.",
+            "groups": ["sca"],
+            "cis": ["5.2.10"],
+            "id": "19007"
+          },
+          "decoder": {
+            "name": "sca"
+          },
+          "input": {
+            "type": "log"
+          },
+          "@timestamp": "2026-01-15T10:20:01.100Z",
+          "location": "sca",
+          "id": "1768472401.100004",
+          "timestamp": "2026-01-15T10:20:01.100+0000"
+        }
+      }
+    ]
+  }
+}
